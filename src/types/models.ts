@@ -74,6 +74,15 @@ export interface SearchResult {
   chunk: DocumentChunk;
   similarity: number;
   relevance: number;
+  usedInResponse?: boolean; // Indique si ce chunk a été utilisé dans la réponse
+  citations?: Citation[]; // Citations précises extraites
+}
+
+export interface Citation {
+  text: string; // Le texte exact cité
+  startIndex: number; // Position dans le chunk
+  endIndex: number; // Position de fin dans le chunk
+  confidence: number; // Confiance que ce passage a été utilisé (0-1)
 }
 
 export const AVAILABLE_MODELS: ModelConfig[] = [
@@ -120,6 +129,61 @@ export const AVAILABLE_MODELS: ModelConfig[] = [
     minRAM: 3,
     mobile: true,
     webllmId: 'TinyLlama-1.1B-Chat-v0.4-q4f16_1-MLC'
+  },
+   {
+    id: 'qwen2.5-0.5b',
+    name: 'Qwen 2.5 – 0.5B',
+    size: '~1GB',
+    speed: 'Ultra-rapide',
+    quality: 'Bon',
+    description: 'Pour RAG léger (documents courts). Modèle mobile ultra-compact.',
+    minRAM: 2,
+    mobile: true,
+    webllmId: 'Qwen2.5-0.5B-Instruct-q4f32_1-MLC'
+  },
+  {
+    id: 'llama-3.2-1b',
+    name: 'Llama 3.2 – 1B',
+    size: '~2.5GB',
+    speed: 'Rapide',
+    quality: 'Bon',
+    description: 'Petit Llama, adapté au RAG très simple ou local search.',
+    minRAM: 4,
+    mobile: true,
+    webllmId: 'Llama-3.2-1B-Instruct-q4f16_1-MLC'
+  },
+    {
+    id: 'phi-3.5-3.8b',
+    name: 'Phi-3.5 – 3.8B',
+    size: '~5.5GB',
+    speed: 'Rapide',
+    quality: 'Excellent',
+    description: 'Un des meilleurs modèles <4B pour du vrai RAG sérieux.',
+    minRAM: 8,
+    mobile: false,
+    webllmId: 'Phi-3.5-mini-3.8B-instruct-q4f16_1-MLC'
+  },
+  {
+    id: 'qwen2.5-3b',
+    name: 'Qwen 2.5 – 3B',
+    size: '~6GB',
+    speed: 'Moyen',
+    quality: 'Excellent',
+    description: 'Très bon grounding, excellent sur RAG multi-chunks.',
+    minRAM: 8,
+    mobile: false,
+    webllmId: 'Qwen2.5-3B-Instruct-q4f16_1-MLC'
+  },
+  {
+    id: 'llama-3.1-8b',
+    name: 'Llama 3.1 – 8B',
+    size: '~12GB',
+    speed: 'Lent',
+    quality: 'Excellent',
+    description: 'Pour du RAG avancé avec contexte large. Très fiable.',
+    minRAM: 12,
+    mobile: false,
+    webllmId: 'Llama-3.1-8B-Instruct-q4f16_1-MLC'
   }
 ];
 

@@ -254,13 +254,34 @@ export default function Home() {
         }
       );
 
-      // Créer le message assistant avec la réponse complète
+      // Analyser quels chunks ont été réellement utilisés
+      let finalRagContext = ragContext;
+      if (ragContext.length > 0 && fullResponse) {
+        finalRagContext = ragManager.analyzeResponseCitations(fullResponse, ragContext);
+        
+        // 🔍 DEBUG - Afficher les sources réellement utilisées
+        const usedSources = finalRagContext.filter(r => r.usedInResponse);
+        console.log('\n=== ANALYSE DES CITATIONS ===');
+        console.log(`Sources utilisées: ${usedSources.length}/${finalRagContext.length}`);
+        usedSources.forEach((r, i) => {
+          console.log(`\n✅ Source ${i+1}: ${r.chunk.metadata.sourceName}`);
+          if (r.citations && r.citations.length > 0) {
+            r.citations.forEach((citation: any, ci: number) => {
+              console.log(`   Citation ${ci+1} (confiance: ${Math.round(citation.confidence * 100)}%):`);
+              console.log(`   "${citation.text.substring(0, 150)}..."`);
+            });
+          }
+        });
+        console.log('=== FIN ANALYSE ===\n');
+      }
+
+      // Créer le message assistant avec la réponse complète et les sources analysées
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: fullResponse,
         timestamp: new Date(),
-        ragContext: ragContext.length > 0 ? ragContext : undefined
+        ragContext: finalRagContext.length > 0 ? finalRagContext : undefined
       };
       
       await addMessageToConversation(assistantMessage);
@@ -403,26 +424,70 @@ export default function Home() {
                             >
                               <div className="whitespace-pre-wrap text-base break-words overflow-hidden">{message.content}</div>
                               
-                              {/* Sources RAG */}
+                              {/* Sources RAG avec citations précises */}
                               {message.role === 'assistant' && message.ragContext && showDetailedSources && (
                                 <details className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
                                   <summary className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer hover:text-gray-800 dark:hover:text-gray-300">
-                                    📚 Sources utilisées ({message.ragContext.length})
+                                    📚 Sources ({message.ragContext.filter(s => s.usedInResponse).length} utilisées / {message.ragContext.length} récupérées)
                                   </summary>
                                   <div className="mt-2 space-y-2">
-                                    {message.ragContext.map((source, index) => (
-                                      <div key={index} className="text-xs bg-gray-50 dark:bg-gray-700 p-2 rounded border-l-2 border-blue-500">
-                                        <div className="font-medium text-gray-700 dark:text-gray-300">
-                                          {source.chunk.metadata?.sourceName || `Source ${index + 1}`}
+                                    {/* Sources réellement utilisées en premier */}
+                                    {message.ragContext.filter(s => s.usedInResponse).map((source, index) => (
+                                      <div key={`used-${index}`} className="text-xs bg-green-50 dark:bg-green-900/20 p-3 rounded border-l-4 border-green-500">
+                                        <div className="flex items-center justify-between mb-2">
+                                          <div className="font-medium text-green-800 dark:text-green-300 flex items-center gap-1">
+                                            ✅ {source.chunk.metadata?.sourceName || `Source ${index + 1}`}
+                                          </div>
+                                          <div className="text-green-600 dark:text-green-400 text-xs">
+                                            Utilisée • {(source.similarity * 100).toFixed(0)}%
+                                          </div>
                                         </div>
-                                        <div className="text-gray-600 dark:text-gray-400 mt-1">
-                                          {source.chunk.content.substring(0, 200)}...
-                                        </div>
-                                        <div className="text-gray-500 dark:text-gray-500 mt-1">
-                                          Similarité: {(source.similarity * 100).toFixed(1)}%
-                                        </div>
+                                        
+                                        {/* Citations précises */}
+                                        {source.citations && source.citations.length > 0 && (
+                                          <div className="space-y-1 mb-2">
+                                            {source.citations.map((citation: any, ci: number) => (
+                                              <div key={ci} className="bg-white dark:bg-gray-800 p-2 rounded border border-green-200 dark:border-green-700">
+                                                <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                                                  📝 Citation {ci + 1} (confiance: {(citation.confidence * 100).toFixed(0)}%)
+                                                </div>
+                                                <div className="text-gray-700 dark:text-gray-300 italic">
+                                                  "{citation.text}"
+                                                </div>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        )}
+                                        
+                                        {/* Aperçu complet si pas de citations */}
+                                        {(!source.citations || source.citations.length === 0) && (
+                                          <div className="text-gray-600 dark:text-gray-400 mt-1">
+                                            {source.chunk.content.substring(0, 200)}...
+                                          </div>
+                                        )}
                                       </div>
                                     ))}
+                                    
+                                    {/* Sources non utilisées (affichées de manière atténuée) */}
+                                    {message.ragContext.filter(s => !s.usedInResponse).length > 0 && (
+                                      <details className="mt-2">
+                                        <summary className="text-xs text-gray-500 dark:text-gray-500 cursor-pointer">
+                                          Autres sources consultées ({message.ragContext.filter(s => !s.usedInResponse).length})
+                                        </summary>
+                                        <div className="mt-2 space-y-2">
+                                          {message.ragContext.filter(s => !s.usedInResponse).map((source, index) => (
+                                            <div key={`unused-${index}`} className="text-xs bg-gray-50 dark:bg-gray-800 p-2 rounded border-l-2 border-gray-300 opacity-60">
+                                              <div className="font-medium text-gray-600 dark:text-gray-400">
+                                                {source.chunk.metadata?.sourceName || `Source ${index + 1}`}
+                                              </div>
+                                              <div className="text-gray-500 dark:text-gray-500 mt-1">
+                                                Similarité: {(source.similarity * 100).toFixed(1)}%
+                                              </div>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </details>
+                                    )}
                                   </div>
                                 </details>
                               )}
