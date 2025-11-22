@@ -42,3 +42,6 @@ next-env.d.ts
 
 # temp files for file uploads
 /temp
+
+# JSON files
+*.json
