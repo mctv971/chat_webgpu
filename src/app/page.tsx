@@ -187,6 +187,19 @@ export default function Home() {
           if (searchResults.length > 0) {
             console.log(`Trouvé ${searchResults.length} résultats pertinents`);
             ragContext = searchResults;
+            
+            // 🔍 DEBUG RAG - Afficher les chunks récupérés
+            console.log('=== DEBUG RAG - CHUNKS RÉCUPÉRÉS ===');
+            ragContext.forEach((r, i) => {
+              const similarityPercent = Math.round(r.similarity * 100);
+              const relevancePercent = Math.round(r.relevance * 100);
+              console.log(`\n📄 Chunk ${i+1}/${ragContext.length}:`);
+              console.log(`   Source: ${r.chunk.metadata.sourceName}`);
+              console.log(`   Similarité: ${similarityPercent}% | Pertinence: ${relevancePercent}%`);
+              console.log(`   Taille: ${r.chunk.content.length} caractères`);
+              console.log(`   Aperçu: ${r.chunk.content.substring(0, 150).replace(/\n/g, ' ')}...`);
+            });
+            console.log('\n=== FIN DEBUG RAG ===\n');
           }
         } catch (ragError) {
           console.warn('Erreur RAG, utilisation du mode normal:', ragError);
@@ -199,18 +212,34 @@ export default function Home() {
       let messagesForGeneration: ChatMessage[];
 
       if (ragContext.length > 0) {
+        // Mode RAG : le prompt système contient déjà le contexte et les instructions
+        const ragPromptContent = ragManager.createRAGPrompt(inputMessage.trim(), ragContext);
+        
         const systemMessage: ChatMessage = {
           id: 'rag-system',
           role: 'system',
-          content: ragManager.createRAGPrompt(inputMessage.trim(), ragContext),
+          content: ragPromptContent,
           timestamp: new Date()
         };
 
-        const recentHistory = conversationHistory.slice(-10);
+        // 🔍 DEBUG - Afficher le prompt système complet
+        console.log('=== DEBUG RAG - PROMPT SYSTÈME ===');
+        console.log(`Longueur totale: ${ragPromptContent.length} caractères`);
+        console.log('Aperçu du prompt:');
+        console.log(ragPromptContent.substring(0, 500) + '\n...\n');
+        console.log('=== FIN PROMPT SYSTÈME ===\n');
+
+        // Inclure l'historique récent pour le contexte conversationnel
+        const recentHistory = conversationHistory.slice(-8, -1); // Exclure le dernier message utilisateur
+        
+        console.log(`📚 Historique: ${recentHistory.length} messages | Question actuelle incluse`);
+        
+        // Format: [system avec RAG] + [historique sans le dernier user] + [question actuelle]
         messagesForGeneration = [systemMessage, ...recentHistory, userMessage];
       } else {
+        // Mode normal sans RAG
         const recentHistory = conversationHistory.slice(-10);
-        messagesForGeneration = [...recentHistory, userMessage];
+        messagesForGeneration = [...recentHistory];
       }
 
       // Générer la réponse

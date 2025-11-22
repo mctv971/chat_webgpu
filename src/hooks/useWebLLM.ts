@@ -83,8 +83,8 @@ export const useWebLLM = () => {
         const completion = await engineRef.current.chat.completions.create({
           messages: webllmMessages,
           stream: true,
-          max_tokens: 512,
-          temperature: 0.7,
+          max_tokens: 1024,
+          temperature: 0.5,
         });
 
         for await (const chunk of completion) {
@@ -97,8 +97,8 @@ export const useWebLLM = () => {
         const completion = await engineRef.current.chat.completions.create({
           messages: webllmMessages,
           stream: false,
-          max_tokens: 512,
-          temperature: 0.7,
+          max_tokens: 1024,
+          temperature: 0.5,
         });
 
         fullResponse = completion.choices[0]?.message?.content || '';

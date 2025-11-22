@@ -154,7 +154,7 @@ class RAGManager {
   buildRAGContext(
     query: string,
     searchResults: SearchResult[],
-    maxContextLength: number = 3000
+    maxContextLength: number = 6000
   ): string {
     if (searchResults.length === 0) {
       return '';
@@ -163,7 +163,7 @@ class RAGManager {
     let context = '';
     let currentLength = 0;
 
-    const contextHeader = `Contexte pertinent pour la question "${query}":\n\n`;
+    const contextHeader = `=== DOCUMENTS PERTINENTS ===\n\n`;
     context += contextHeader;
     currentLength += contextHeader.length;
 
@@ -172,9 +172,10 @@ class RAGManager {
       const chunkText = result.chunk.content.trim();
       
       // Ajouter un identifiant de source pour les citations
-      const sourceId = `[SOURCE_${i + 1}]`;
-      const sourceInfo = `${sourceId} (${result.chunk.metadata.sourceName}):\n`;
-      const chunkContent = `${chunkText}\n\n`;
+      const sourceId = `[Document ${i + 1}]`;
+      const similarityPercent = Math.round(result.similarity * 100);
+      const sourceInfo = `${sourceId} Source: ${result.chunk.metadata.sourceName} (Pertinence: ${similarityPercent}%)\n`;
+      const chunkContent = `${chunkText}\n\n---\n\n`;
       const totalAdd = sourceInfo.length + chunkContent.length;
 
       // Vérifier si on dépasse la limite
@@ -205,25 +206,23 @@ class RAGManager {
   ): string {
     const context = this.buildRAGContext(userQuery, searchResults);
     
-    const defaultSystemPrompt = `Tu es un assistant IA qui répond aux questions en te basant sur le contexte fourni. 
+    const defaultSystemPrompt = `Tu es un assistant IA expert qui répond aux questions en analysant attentivement les documents fournis.
 
-Instructions importantes:
-- Utilise UNIQUEMENT les informations du contexte fourni pour répondre
-- Réponds de manière naturelle et fluide, sans citer explicitement les sources dans ta réponse
-- Si le contexte ne contient pas d'information pertinente, dis-le clairement
-- Sois précis et concis dans tes réponses
-- Si tu n'es pas sûr d'une information, exprime ton incertitude
-- Ne mentionne pas les identifiants [SOURCE_X] dans ta réponse
-
-Réponds simplement et naturellement à la question en utilisant les informations fournies.`;
-
-    const prompt = `${systemPrompt || defaultSystemPrompt}
+📋 INSTRUCTIONS CRITIQUES :
+1. Lis ATTENTIVEMENT tous les documents fournis ci-dessous
+2. Base ta réponse UNIQUEMENT sur ces documents
+3. Si plusieurs documents contiennent des informations pertinentes, SYNTHÉTISE-les
+4. Si les documents ne contiennent pas la réponse, dis clairement "Les documents fournis ne contiennent pas cette information"
+5. Réponds de manière précise, structurée et complète
+6. N'invente JAMAIS d'informations qui ne sont pas dans les documents
 
 ${context}
 
-Question: ${userQuery}
+=== FIN DES DOCUMENTS ===
 
-Réponse:`;
+Maintenant, réponds à cette question en te basant STRICTEMENT sur les documents ci-dessus :`;
+
+    const prompt = systemPrompt || defaultSystemPrompt;
 
     return prompt;
   }
@@ -269,10 +268,10 @@ Réponse:`;
     const baseConfig: RAGConfig = {
       enabled: true,
       selectedKnowledgeBase: null,
-      similarityThreshold: 0.3,
+      similarityThreshold: 0.4,
       maxResults: 5,
       useReranking: true,
-      contextLength: 3000
+      contextLength: 6000
     };
 
     // Ajuster selon le type de requête
@@ -281,7 +280,7 @@ Réponse:`;
         return {
           ...baseConfig,
           maxResults: 8,
-          similarityThreshold: 0.4,
+          similarityThreshold: 0.45,
           useReranking: true
         };
       
@@ -289,8 +288,8 @@ Réponse:`;
         return {
           ...baseConfig,
           maxResults: 10,
-          similarityThreshold: 0.25,
-          contextLength: 4000,
+          similarityThreshold: 0.35,
+          contextLength: 8000,
           useReranking: true
         };
       
@@ -298,7 +297,7 @@ Réponse:`;
         return {
           ...baseConfig,
           maxResults: 6,
-          similarityThreshold: 0.35,
+          similarityThreshold: 0.4,
           useReranking: true
         };
       
