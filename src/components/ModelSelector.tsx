@@ -43,6 +43,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
       case 'Rapide': return 'text-blue-600';
       case 'Moyen': return 'text-yellow-600';
       case 'Lent': return 'text-red-600';
+      case 'Usain Bolt': return 'text-yellow-600';
       default: return 'text-gray-600';
     }
   };

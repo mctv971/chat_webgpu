@@ -2,8 +2,8 @@ export interface ModelConfig {
   id: string;
   name: string;
   size: string;
-  speed: 'Ultra-rapide' | 'Rapide' | 'Moyen' | 'Lent';
-  quality: 'Basique' | 'Bon' | 'Excellent' | 'Exceptionnel';
+  speed: "Ultra-rapide" | "Rapide" | "Moyen" | "Lent"| "Usain Bolt";
+  quality: "Basique" | "Bon" | "Excellent" | "Exceptionnel";
   description: string;
   minRAM: number; // GB requis
   mobile: boolean;
@@ -29,7 +29,7 @@ export interface KnowledgeBase {
   id: string;
   name: string;
   description: string;
-  type: 'custom' | 'predefined';
+  type: "custom" | "predefined";
   color: string;
   chunks: DocumentChunk[];
   totalDocuments: number;
@@ -87,168 +87,116 @@ export interface Citation {
 
 export const AVAILABLE_MODELS: ModelConfig[] = [
   {
-    id: 'qwen2.5-0.5b',
-    name: 'Qwen2.5 0.5B',
-    size: '~1GB',
-    speed: 'Ultra-rapide',
-    quality: 'Bon',
-    description: 'Modèle ultra-léger, parfait pour mobile',
-    minRAM: 2,
-    mobile: true,
-    webllmId: 'Qwen2.5-0.5B-Instruct-q4f32_1-MLC'
-  },
-  {
-    id: 'phi-3.5-mini',
-    name: 'Phi-3.5 Mini',
-    size: '~2.4GB',
-    speed: 'Rapide',
-    quality: 'Excellent',
-    description: 'Excellent compromis performance/taille',
+    id: "llama-3.2-1b",
+    name: "Llama 3.2 – 1B",
+    size: "~2.5GB",
+    speed: "Rapide",
+    quality: "Bon",
+    description: "Petit Llama, adapté au RAG très simple ou local search.",
     minRAM: 4,
     mobile: true,
-    webllmId: 'Phi-3.5-mini-instruct-q4f16_1-MLC'
+    webllmId: "Llama-3.2-1B-Instruct-q4f16_1-MLC",
   },
   {
-    id: 'llama-3.2-1b',
-    name: 'Llama 3.2 1B',
-    size: '~2.5GB',
-    speed: 'Rapide',
-    quality: 'Excellent',
-    description: 'Modèle Meta, très performant',
-    minRAM: 4,
-    mobile: true,
-    webllmId: 'Llama-3.2-1B-Instruct-q4f16_1-MLC'
-  },
-  {
-    id: 'tinyllama',
-    name: 'TinyLlama 1.1B',
-    size: '~2.2GB',
-    speed: 'Ultra-rapide',
-    quality: 'Bon',
-    description: 'Très rapide, bon pour débuter',
-    minRAM: 3,
-    mobile: true,
-    webllmId: 'TinyLlama-1.1B-Chat-v0.4-q4f16_1-MLC'
-  },
-   {
-    id: 'qwen2.5-0.5b',
-    name: 'Qwen 2.5 – 0.5B',
-    size: '~1GB',
-    speed: 'Ultra-rapide',
-    quality: 'Bon',
-    description: 'Pour RAG léger (documents courts). Modèle mobile ultra-compact.',
-    minRAM: 2,
-    mobile: true,
-    webllmId: 'Qwen2.5-0.5B-Instruct-q4f32_1-MLC'
-  },
-  {
-    id: 'llama-3.2-1b',
-    name: 'Llama 3.2 – 1B',
-    size: '~2.5GB',
-    speed: 'Rapide',
-    quality: 'Bon',
-    description: 'Petit Llama, adapté au RAG très simple ou local search.',
-    minRAM: 4,
-    mobile: true,
-    webllmId: 'Llama-3.2-1B-Instruct-q4f16_1-MLC'
-  },
-    {
-    id: 'phi-3.5-3.8b',
-    name: 'Phi-3.5 – 3.8B',
-    size: '~5.5GB',
-    speed: 'Rapide',
-    quality: 'Excellent',
-    description: 'Un des meilleurs modèles <4B pour du vrai RAG sérieux.',
+    id: "phi-3.5-3.8b",
+    name: "Phi-3.5 – 3.8B",
+    size: "~5.5GB",
+    speed: "Rapide",
+    quality: "Excellent",
+    description: "Un des meilleurs modèles <4B pour du vrai RAG sérieux.",
     minRAM: 8,
     mobile: false,
-    webllmId: 'Phi-3.5-mini-3.8B-instruct-q4f16_1-MLC'
+    webllmId: "Phi-3.5-mini-instruct-q4f16_1-MLC",
   },
   {
-    id: 'qwen2.5-3b',
-    name: 'Qwen 2.5 – 3B',
-    size: '~6GB',
-    speed: 'Moyen',
-    quality: 'Excellent',
-    description: 'Très bon grounding, excellent sur RAG multi-chunks.',
+    id: "qwen2.5-3b",
+    name: "Qwen 2.5 – 3B",
+    size: "~6GB",
+    speed: "Usain Bolt",
+    quality: "Excellent",
+    description: "Très bon grounding, excellent sur RAG multi-chunks.",
     minRAM: 8,
     mobile: false,
-    webllmId: 'Qwen2.5-3B-Instruct-q4f16_1-MLC'
+    webllmId: "Qwen2.5-3B-Instruct-q4f16_1-MLC",
   },
   {
-    id: 'llama-3.1-8b',
-    name: 'Llama 3.1 – 8B',
-    size: '~12GB',
-    speed: 'Lent',
-    quality: 'Excellent',
-    description: 'Pour du RAG avancé avec contexte large. Très fiable.',
+    id: "llama-3.1-8b",
+    name: "Llama 3.1 – 8B",
+    size: "~12GB",
+    speed: "Lent",
+    quality: "Excellent",
+    description: "Pour du RAG avancé avec contexte large. Très fiable.",
     minRAM: 12,
     mobile: false,
-    webllmId: 'Llama-3.1-8B-Instruct-q4f16_1-MLC'
-  }
+    webllmId: "Llama-3.1-8B-Instruct-q4f16_1-MLC",
+  },
 ];
 
 // Modèles d'embedding disponibles
 export const AVAILABLE_EMBEDDING_MODELS: EmbeddingModel[] = [
   {
-    id: 'all-minilm-l6-v2',
-    name: 'all-MiniLM-L6-v2',
-    size: '~90MB',
+    id: "all-minilm-l6-v2",
+    name: "all-MiniLM-L6-v2",
+    size: "~90MB",
     dimensions: 384,
     maxTokens: 256,
-    language: ['en', 'fr'],
-    downloadUrl: 'https://huggingface.co/Xenova/all-MiniLM-L6-v2'
+    language: ["en", "fr"],
+    downloadUrl: "https://huggingface.co/Xenova/all-MiniLM-L6-v2",
   },
   {
-    id: 'all-minilm-l12-v2',
-    name: 'all-MiniLM-L12-v2',
-    size: '~120MB',
+    id: "all-minilm-l12-v2",
+    name: "all-MiniLM-L12-v2",
+    size: "~120MB",
     dimensions: 384,
     maxTokens: 256,
-    language: ['en', 'fr'],
-    downloadUrl: 'https://huggingface.co/Xenova/all-MiniLM-L12-v2'
-  }
+    language: ["en", "fr"],
+    downloadUrl: "https://huggingface.co/Xenova/all-MiniLM-L12-v2",
+  },
 ];
 
 // Knowledge bases pré-définies disponibles au téléchargement
 export const PREDEFINED_KNOWLEDGE_BASES: PredefinedKnowledge[] = [
   {
-    id: 'wikipedia-fr-science',
-    name: 'Wikipedia France - Sciences',
-    description: 'Articles Wikipedia français sur les sciences, physique, chimie, biologie',
-    size: '~150MB',
+    id: "wikipedia-fr-science",
+    name: "Wikipedia France - Sciences",
+    description:
+      "Articles Wikipedia français sur les sciences, physique, chimie, biologie",
+    size: "~150MB",
     chunks: 12000,
-    downloadUrl: '/knowledge/wikipedia-fr-science.json.gz',
-    version: '2024.11',
-    tags: ['science', 'physique', 'chimie', 'biologie', 'français'],
-    verified: true
+    downloadUrl: "/knowledge/wikipedia-fr-science.json.gz",
+    version: "2024.11",
+    tags: ["science", "physique", "chimie", "biologie", "français"],
+    verified: true,
   },
   {
-    id: 'wikipedia-fr-history',
-    name: 'Wikipedia France - Histoire',
-    description: 'Articles Wikipedia français sur l\'histoire mondiale et française',
-    size: '~200MB',
+    id: "wikipedia-fr-history",
+    name: "Wikipedia France - Histoire",
+    description:
+      "Articles Wikipedia français sur l'histoire mondiale et française",
+    size: "~200MB",
     chunks: 18000,
-    downloadUrl: '/knowledge/wikipedia-fr-history.json.gz',
-    version: '2024.11',
-    tags: ['histoire', 'france', 'monde', 'français'],
-    verified: true
+    downloadUrl: "/knowledge/wikipedia-fr-history.json.gz",
+    version: "2024.11",
+    tags: ["histoire", "france", "monde", "français"],
+    verified: true,
   },
   {
-    id: 'wikipedia-en-tech',
-    name: 'Wikipedia English - Technology',
-    description: 'English Wikipedia articles about programming, AI, web development',
-    size: '~120MB',
+    id: "wikipedia-en-tech",
+    name: "Wikipedia English - Technology",
+    description:
+      "English Wikipedia articles about programming, AI, web development",
+    size: "~120MB",
     chunks: 9500,
-    downloadUrl: '/knowledge/wikipedia-en-tech.json.gz',
-    version: '2024.11',
-    tags: ['technology', 'programming', 'ai', 'web', 'english'],
-    verified: true
-  }
+    downloadUrl: "/knowledge/wikipedia-en-tech.json.gz",
+    version: "2024.11",
+    tags: ["technology", "programming", "ai", "web", "english"],
+    verified: true,
+  },
 ];
 
 export interface ChatMessage {
   id: string;
-  role: 'user' | 'assistant' | 'system';
+  role: "user" | "assistant" | "system";
   content: string;
   timestamp: Date;
   ragContext?: SearchResult[]; // Contexte RAG utilisé pour cette réponse
