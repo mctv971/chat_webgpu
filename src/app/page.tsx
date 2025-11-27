@@ -12,6 +12,7 @@ import KnowledgeManager from '@/components/KnowledgeManager';
 import { ConversationSidebar } from '@/components/ConversationSidebar';
 import { RAGControls } from '@/components/RAGControls';
 import { ModelSelector } from '@/components/ModelSelector';
+import PresentationSlides from '@/components/PresentationSlides';
 
 export default function Home() {
   // États pour WebLLM
@@ -25,6 +26,9 @@ export default function Home() {
   
   // États pour les onglets
   const [activeTab, setActiveTab] = useState<'chat' | 'knowledge'>('chat');
+  
+  // État pour la présentation
+  const [showPresentation, setShowPresentation] = useState(false);
   
   // Hooks
   const { modelState, initModel, generateResponse, unloadModel } = useWebLLM();
@@ -351,6 +355,15 @@ export default function Home() {
               >
                 Knowledge
               </button>
+              <button
+                onClick={() => setShowPresentation(true)}
+                className="px-4 py-2 text-sm font-medium rounded-lg transition-colors text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/30 flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                </svg>
+                Présentation
+              </button>
             </div>
 
             <div className="flex items-center space-x-4">
@@ -603,6 +616,11 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* Modal de présentation */}
+      {showPresentation && (
+        <PresentationSlides onClose={() => setShowPresentation(false)} />
+      )}
     </div>
   );
 }
