@@ -427,6 +427,25 @@ interface DocumentChunk {
 
 ---
 
+## 🤖 Développement Assisté par IA
+
+Ce projet a été développé avec l'assistance d'agents d'intelligence artificielle :
+
+### **Claude Sonnet 4.5 (GitHub Copilot)**
+- 📝 **Génération de la documentation** - Rédaction et structuration du README
+- 🏗️ **Architecture du projet** - Organisation des dossiers et structure des fichiers
+- 🐛 **Débogage et corrections** - Identification et résolution de bugs
+- 💡 **Assistance au développement** - Suggestions et optimisations de code
+
+### **ChatGPT**
+- 🔍 **Recherche de packages** - Identification des bibliothèques appropriées
+- 🤖 **Sélection des modèles** - Recherche et comparaison des modèles WebLLM disponibles
+- 📚 **Documentation technique** - Aide sur les APIs et fonctionnalités
+
+L'utilisation de ces outils a permis d'accélérer le développement tout en maintenant une haute qualité de code et de documentation.
+
+---
+
 ## 📄 Licence
 
 Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
