@@ -8,6 +8,8 @@ Un chatbot intelligent fonctionnant **100% en local** dans le navigateur, propul
 
 Testez directement l'application sans installation !
 
+💡 **Astuce** : Une fois sur la démo, cliquez sur le bouton **"📊 Présentation"** pour découvrir une présentation interactive complète du projet et de ses fonctionnalités.
+
 ![Version](https://img.shields.io/badge/version-0.1.0-blue)
 ![Next.js](https://img.shields.io/badge/Next.js-16.0.1-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
