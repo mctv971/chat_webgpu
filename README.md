@@ -2,6 +2,12 @@
 
 Un chatbot intelligent fonctionnant **100% en local** dans le navigateur, propulsé par WebGPU et doté d'un système RAG (Retrieval-Augmented Generation) avancé pour exploiter vos propres bases de connaissances.
 
+## 🌐 Démo en Ligne
+
+**👉 [Essayer la démo maintenant](https://chat-webgpu.onrender.com/) 👈**
+
+Testez directement l'application sans installation !
+
 ![Version](https://img.shields.io/badge/version-0.1.0-blue)
 ![Next.js](https://img.shields.io/badge/Next.js-16.0.1-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
@@ -12,7 +18,7 @@ Un chatbot intelligent fonctionnant **100% en local** dans le navigateur, propul
 ### 🧠 **Intelligence Artificielle Locale**
 - **Modèles IA** s'exécutant directement dans le navigateur via WebGPU
 - **Aucun serveur externe** - Confidentialité totale
-- **4 modèles optimisés** de 0.5B à 3B paramètres
+- **4 modèles optimisés** de 1B à 8B paramètres
 - **Streaming en temps réel** des réponses
 
 ### 💾 **Système de Conversations**
@@ -64,10 +70,10 @@ Un chatbot intelligent fonctionnant **100% en local** dans le navigateur, propul
 
 | Modèle | Taille | RAM Min | Vitesse | Qualité | Mobile | Description |
 |--------|--------|---------|---------|---------|---------|-------------|
-| **Qwen2.5 0.5B** | ~1GB | 2GB | Ultra-rapide | Bon | ✅ | Ultra-léger, parfait mobile |
-| **Phi-3.5 Mini** | ~2.4GB | 4GB | Rapide | Excellent | ✅ | Compromis performance/taille |
-| **Llama 3.2 1B** | ~2.5GB | 4GB | Rapide | Excellent | ✅ | Modèle Meta très performant |
-| **TinyLlama 1.1B** | ~2.2GB | 3GB | Ultra-rapide | Bon | ✅ | Très rapide pour débuter |
+| **Llama 3.2 1B** | ~2.5GB | 4GB | Rapide | Bon | ✅ | Petit Llama, adapté au RAG très simple ou local search |
+| **Phi-3.5 3.8B** | ~5.5GB | 8GB | Rapide | Excellent | ❌ | Un des meilleurs modèles <4B pour du vrai RAG sérieux |
+| **Qwen 2.5 3B** | ~6GB | 8GB | Usain Bolt | Excellent | ❌ | Très bon grounding, excellent sur RAG multi-chunks |
+| **Llama 3.1 8B** | ~12GB | 12GB | Lent | Excellent | ❌ | Pour du RAG avancé avec contexte large. Très fiable |
 
 ### **Modèles d'Embedding (Transformers.js)**
 
@@ -286,9 +292,10 @@ npm start
 ## 📈 Métriques & Performances
 
 ### **Tailles de Modèles**
-- **Qwen2.5 0.5B** : ~1GB (ultra-rapide)
-- **Phi-3.5 Mini** : ~2.4GB (recommandé)
-- **Llama 3.2 1B** : ~2.5GB (haute qualité)
+- **Llama 3.2 1B** : ~2.5GB (compact et efficace)
+- **Phi-3.5 3.8B** : ~5.5GB (recommandé pour RAG)
+- **Qwen 2.5 3B** : ~6GB (excellente qualité/vitesse)
+- **Llama 3.1 8B** : ~12GB (RAG avancé)
 - **Embeddings** : ~90-120MB
 
 ### **Performance Type**
