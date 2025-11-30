@@ -105,10 +105,10 @@ src/
 │   ├── useConversations.ts     # Gestion conversations
 │   └── useKnowledgeBase.ts     # Gestion bases de connaissances
 ├── lib/                         # Bibliothèques utilitaires
-│   ├── webllm.ts               # Interface WebLLM
 │   ├── embedding.ts            # Gestion embeddings
 │   ├── rag.ts                  # Système RAG
 │   ├── documentProcessor.ts    # Traitement documents
+│   ├── conversationStorage.ts  # Stockage conversations
 │   ├── indexedDB.ts           # Base de données locale
 │   └── wikipediaService.ts    # Service Wikipedia
 └── types/                      # Définitions TypeScript
@@ -406,8 +406,10 @@ interface DocumentChunk {
   "@xenova/transformers": "^2.17.2",  // Embeddings & NLP
   "next": "16.0.1",                   // Framework React
   "react": "19.2.0",                  // UI Library
-  "mammoth": "^1.11.0",              // Parsing DOCX (futur)
-  "pdf-parse": "^2.4.5"              // Parsing PDF (futur)
+  "formidable": "^3.5.4",            // Upload de fichiers
+  "lucide-react": "^0.555.0",        // Icônes
+  "mammoth": "^1.11.0",              // Parsing DOCX
+  "pdf-parse": "^2.4.5"              // Parsing PDF
 }
 ```
 
