@@ -2,7 +2,7 @@ export interface ModelConfig {
   id: string;
   name: string;
   size: string;
-  speed: "Ultra-rapide" | "Rapide" | "Moyen" | "Lent"| "Usain Bolt";
+  speed: "Ultra-rapide" | "Très rapide" | "Rapide" | "Moyen" | "Lent";
   quality: "Basique" | "Bon" | "Excellent" | "Exceptionnel";
   description: string;
   minRAM: number; // GB requis
@@ -112,7 +112,7 @@ export const AVAILABLE_MODELS: ModelConfig[] = [
     id: "qwen2.5-3b",
     name: "Qwen 2.5 – 3B",
     size: "~6GB",
-    speed: "Usain Bolt",
+    speed: "Très rapide",
     quality: "Excellent",
     description: "Très bon grounding, excellent sur RAG multi-chunks.",
     minRAM: 8,

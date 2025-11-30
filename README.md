@@ -72,7 +72,7 @@ Testez directement l'application sans installation !
 |--------|--------|---------|---------|---------|---------|-------------|
 | **Llama 3.2 1B** | ~2.5GB | 4GB | Rapide | Bon | ✅ | Petit Llama, adapté au RAG très simple ou local search |
 | **Phi-3.5 3.8B** | ~5.5GB | 8GB | Rapide | Excellent | ❌ | Un des meilleurs modèles <4B pour du vrai RAG sérieux |
-| **Qwen 2.5 3B** | ~6GB | 8GB | Usain Bolt | Excellent | ❌ | Très bon grounding, excellent sur RAG multi-chunks |
+| **Qwen 2.5 3B** | ~6GB | 8GB | Très rapide | Excellent | ❌ | Très bon grounding, excellent sur RAG multi-chunks |
 | **Llama 3.1 8B** | ~12GB | 12GB | Lent | Excellent | ❌ | Pour du RAG avancé avec contexte large. Très fiable |
 
 ### **Modèles d'Embedding (Transformers.js)**

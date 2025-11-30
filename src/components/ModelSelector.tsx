@@ -40,10 +40,10 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   const getSpeedColor = (speed: string) => {
     switch (speed) {
       case 'Ultra-rapide': return 'text-green-600';
+      case 'Très rapide': return 'text-emerald-600';
       case 'Rapide': return 'text-blue-600';
       case 'Moyen': return 'text-yellow-600';
       case 'Lent': return 'text-red-600';
-      case 'Usain Bolt': return 'text-yellow-600';
       default: return 'text-gray-600';
     }
   };
